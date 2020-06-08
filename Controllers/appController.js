@@ -33,6 +33,17 @@ const uploadFile = async (req, res, next) => {
   }
 };
 
+const getUploadedFiles = async (req, res, next) => {
+  try {
+    const getItem = await itemModel.find({}, { __v: 0 });
+
+    res.status(200).json(getItem);
+  } catch (ex) {
+    throw new Error(err);
+  }
+};
+
 module.exports = {
   uploadFile,
+  getUploadedFiles,
 };

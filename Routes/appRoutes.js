@@ -30,5 +30,6 @@ const upload = multer({
 
 // all routes
 route.post("/file", upload.single("name"), controller.uploadFile);
+route.get("/", controller.getUploadedFiles);
 
 module.exports = route;
