@@ -30,6 +30,10 @@ const upload = multer({
 
 // all routes
 route.post("/file", upload.single("name"), controller.uploadFile);
+route.get("/", controller.getUploadedFiles);
+
+// all routes
+route.post("/file", upload.single("name"), controller.uploadFile);
 route.get("/convertToCanonicalData", controller.convertToCanonicalData);
 
 module.exports = route;

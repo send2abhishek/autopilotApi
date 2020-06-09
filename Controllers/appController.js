@@ -35,43 +35,56 @@ const uploadFile = async (req, res, next) => {
 };
 const xlsxFile  = require('read-excel-file/node');
 
+const getUploadedFiles = async (req, res, next) => {
+  try {
+    const getItem = await itemModel.find({}, { __v: 0 });
+
+    res.status(200).json(getItem);
+  } catch (ex) {
+    throw new Error(err);
+  }
+};
+
 const convertToCanonicalData = async (req, res, next) => {
   try {
     console.log("chang to canonical format");
-  
+   //let systemInfo;
+
+   var systemInfo = {} // empty Object
+   var key = 'System metadata Details';
+   systemInfo[key] = []; // empty Array, which you can push() values into
+   
+
+
     const filePath ='C:/AAP/autopilotApi/uploads/Sample1.xlsx';
     xlsxFile(filePath).then((rows) => {
-      console.log(rows);
-    })
-
      
+      for(let val of rows) {
+  
+           let SystemDetails = { 
+            SystemName : val[0], 
+            OperationSystem : val[1], 
+            Capacity:val[2] ,
+            RAM:val[3],
+            ROM:val[4],
+            
+     }; 
 
-    // STEP 1: Reading JSON file 
-    const users = require("./users"); 
-    
-    // Defining new user 
-    let user = { 
-      name: "New User", 
-      age: 30, 
-      language: ["PHP", "Go", "JavaScript"] 
-    }; 
-    
-    // STEP 2: Adding new data to users object 
-    users.push(user); 
-    
-    // STEP 3: Writing to a file 
-    fs.writeFile("users.json", JSON.stringify(users), err => { 
+     systemInfo[key].push(SystemDetails);
+    }
       
-      // Checking for errors 
-      if (err) throw err; 
-    
-      console.log("Done writing"); // Success 
-    }); 
-    
-
-
+    })
+    let SystemDetails = { 
+      SystemName : "System1", 
+      OperationSystem : "Windows", 
+      Capacity:"250GB" ,
+      RAM:"4",
+      ROM:"1",}
+      systemInfo[key].push(SystemDetails);
+    console.log("json details "+JSON.stringify(systemInfo))
     res.status(200).json({
       message: "File Read sucessfully",
+      systemInfo,
      
     });
    
@@ -84,4 +97,5 @@ const convertToCanonicalData = async (req, res, next) => {
 module.exports = {
   uploadFile,
   convertToCanonicalData,
+  getUploadedFiles,
 };
