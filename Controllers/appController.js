@@ -1,6 +1,8 @@
 const itemModel = require("../Models/itemModel");
 const mongoose = require("mongoose");
 const config = require("config");
+const path = require('path');
+
 const uploadFile = async (req, res, next) => {
   try {
     const Id = new mongoose.Types.ObjectId();
@@ -43,7 +45,23 @@ const getUploadedFiles = async (req, res, next) => {
   }
 };
 
+//API method to download a sample template from local directory
+const DownloadTemplate = async (req,res, next)=>{
+  try{
+    var file = req.params.file;//file name
+    console.log("filename is :",file)//testing
+    var fileLocation = path.join('./Templates',file);//the path where the file is located
+    console.log(fileLocation);//testing
+    res.download(fileLocation, file);  //inbuilt download method that executes and downloads the file   
+  }
+  catch (ex) {
+    throw new Error(ex.message);
+  }
+    
+};
+
 module.exports = {
   uploadFile,
   getUploadedFiles,
+  DownloadTemplate
 };

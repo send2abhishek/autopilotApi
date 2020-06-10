@@ -31,5 +31,7 @@ const upload = multer({
 // all routes
 route.post("/file", upload.single("name"), controller.uploadFile);
 route.get("/", controller.getUploadedFiles);
+//currently the file type allowed is any type, that is * as in the below line of code
+route.get('/download/:file(*)', controller.DownloadTemplate);//use the URL localhost:3001/download/sample.txt
 
 module.exports = route;
