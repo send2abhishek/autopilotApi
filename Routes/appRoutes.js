@@ -34,4 +34,7 @@ route.get("/", controller.getUploadedFiles);
 //currently the file type allowed is any type, that is * as in the below line of code
 route.get('/download/:file(*)', controller.DownloadTemplate);//use the URL localhost:3001/download/sample.txt
 
+// all routes
+route.get("/convertToCanonicalData", controller.convertToCanonicalData);
+
 module.exports = route;
